@@ -1,30 +1,37 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:xazna_bank/core/source/api_client.dart';
+import 'package:xazna_bank/core/source/dio_provider.dart';
+import 'package:xazna_bank/data/repositories/auth_repository.dart';
+import 'package:xazna_bank/data/services/auth_api_service.dart';
+import 'package:xazna_bank/presentation/home/home_screen.dart';
 
 import 'package:xazna_bank/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('shows language screen on app start', (tester) async {
+    SharedPreferences.setMockInitialValues({});
+    final repository = AuthRepository(
+      AuthApiService(ApiClient(DioProvider.create())),
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(MyApp(repository: repository));
+    await tester.pumpAndSettle();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    expect(find.text('"xazna"ga xush kelibsiz'), findsOneWidget);
+    expect(find.text('Davom etish uchun tilni tanlang'), findsOneWidget);
+    expect(find.text('KEYINGI'), findsOneWidget);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('opens home screen when session token exists', (tester) async {
+    SharedPreferences.setMockInitialValues({'access_token': 'token'});
+    final repository = AuthRepository(
+      AuthApiService(ApiClient(DioProvider.create())),
+    );
+
+    await tester.pumpWidget(MyApp(repository: repository));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(HomeScreen), findsOneWidget);
   });
 }
