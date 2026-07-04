@@ -16,6 +16,7 @@ void main() {
     );
 
     await tester.pumpWidget(MyApp(repository: repository));
+    await tester.pump(const Duration(seconds: 2));
     await tester.pumpAndSettle();
 
     expect(find.text('"xazna"ga xush kelibsiz'), findsOneWidget);
@@ -30,6 +31,7 @@ void main() {
     );
 
     await tester.pumpWidget(MyApp(repository: repository));
+    await tester.pump(const Duration(seconds: 2));
     await tester.pumpAndSettle();
 
     expect(find.byType(HomeScreen), findsOneWidget);
