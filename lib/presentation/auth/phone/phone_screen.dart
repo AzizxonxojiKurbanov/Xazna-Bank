@@ -1,9 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
+import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 import 'package:xazna_bank/presentation/auth/bloc/auth_bloc.dart';
 
 import '../otp/otp_screen.dart';
+
+/// Formats the national number as the user types: "90 123 45 67".
+class _UzPhoneNumberFormatter extends TextInputFormatter {
+  static const _groupLengths = [2, 3, 2, 2];
+
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final digits = newValue.text.replaceAll(RegExp(r'\D'), '');
+    final limited = digits.length > 9 ? digits.substring(0, 9) : digits;
+
+    final buffer = StringBuffer();
+    var index = 0;
+    for (final groupLength in _groupLengths) {
+      if (index >= limited.length) break;
+      final end = (index + groupLength).clamp(0, limited.length);
+      if (buffer.isNotEmpty) buffer.write(' ');
+      buffer.write(limited.substring(index, end));
+      index = end;
+    }
+
+    final formatted = buffer.toString();
+    return TextEditingValue(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
+  }
+}
 
 class PhoneScreen extends StatefulWidget {
   const PhoneScreen({super.key});
@@ -120,27 +151,44 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     border: Border.all(color: Colors.green, width: 1.2),
                   ),
                   alignment: Alignment.centerLeft,
-                  child: TextField(
-                    controller: phoneController,
-                    keyboardType: TextInputType.phone,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
-                      LengthLimitingTextInputFormatter(13),
-                    ],
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: '+998',
-                      hintStyle: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
+                  child: Row(
+                    children: [
+                      const Text(
+                        '+998',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 8),
+                      Container(width: 1, height: 24, color: Colors.white24),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: TextField(
+                          controller: phoneController,
+                          keyboardType: TextInputType.phone,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            _UzPhoneNumberFormatter(),
+                          ],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: '90 123 45 67',
+                            hintStyle: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -159,12 +207,22 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     onPressed: state is AuthLoading
                         ? null
                         : () {
-                            final phone = phoneController.text.trim();
-                            final isValid = RegExp(
-                              r'^\+998\d{9}$',
-                            ).hasMatch(phone);
+                            final nsn = phoneController.text.replaceAll(
+                              ' ',
+                              '',
+                            );
 
-                            if (!isValid) {
+                            PhoneNumber? phoneNumber;
+                            try {
+                              phoneNumber = PhoneNumber.parse(
+                                nsn,
+                                callerCountry: IsoCode.UZ,
+                              );
+                            } catch (_) {
+                              phoneNumber = null;
+                            }
+
+                            if (phoneNumber == null || !phoneNumber.isValid()) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
@@ -176,7 +234,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                             }
 
                             context.read<AuthBloc>().add(
-                              SendOtpRequested(phone),
+                              SendOtpRequested(phoneNumber.international),
                             );
                           },
                     child: state is AuthLoading

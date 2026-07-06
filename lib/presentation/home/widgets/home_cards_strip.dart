@@ -16,7 +16,7 @@ class HomeCardsStrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 138,
+      height: 148,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
@@ -46,7 +46,7 @@ class _BankCardTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 168,
+      width: 188,
       padding: const EdgeInsets.all(13),
       decoration: homeCardDecoration(),
       child: Column(
@@ -133,7 +133,7 @@ class _AddCardTile extends StatelessWidget {
       onTap: () {},
       borderRadius: BorderRadius.circular(18),
       child: Container(
-        width: 168,
+        width: 188,
         decoration: homeCardDecoration(),
         child: const Column(
           mainAxisAlignment: MainAxisAlignment.center,

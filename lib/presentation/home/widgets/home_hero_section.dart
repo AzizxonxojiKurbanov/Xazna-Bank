@@ -73,7 +73,7 @@ class HomeHeroSection extends StatelessWidget {
           Positioned(
             left: 14,
             right: 14,
-            bottom: 0,
+            bottom: -10,
             child: HomeCardsStrip(
               cards: cards,
               isBalanceHidden: isBalanceHidden,
