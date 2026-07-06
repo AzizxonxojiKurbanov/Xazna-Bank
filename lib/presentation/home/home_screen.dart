@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(14, 14, 14, 10),
                     child: SizedBox(
-                      height: 112,
+                      height: 122,
                       child: PageView.builder(
                         controller: PageController(viewportFraction: 0.94),
                         itemCount: homeBanners.length,
