@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:xazna_bank/presentation/home/add_card_screen.dart';
 import 'package:xazna_bank/presentation/home/data/home_mock_data.dart';
 import 'package:xazna_bank/presentation/home/models/exchange_rate.dart';
 import 'package:xazna_bank/presentation/home/models/home_bank_card.dart';
@@ -8,6 +9,7 @@ import 'package:xazna_bank/presentation/home/widgets/cashback_card.dart';
 import 'package:xazna_bank/presentation/home/widgets/exchange_rates_card.dart';
 import 'package:xazna_bank/presentation/home/widgets/home_bottom_nav.dart';
 import 'package:xazna_bank/presentation/home/widgets/home_hero_section.dart';
+import 'package:xazna_bank/presentation/profile/profile_info_screen.dart';
 import 'package:xazna_bank/presentation/tabs/monitoring/monitoring_screen.dart';
 import 'package:xazna_bank/presentation/tabs/payments/payments_screen.dart';
 import 'package:xazna_bank/presentation/tabs/services/services_screen.dart';
@@ -67,6 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     onToggleBalance: () {
                       setState(() => isBalanceHidden = !isBalanceHidden);
                     },
+                    onProfileTap: _openProfileInfo,
+                    onAddCardTap: _openAddCard,
                   ),
                 ),
                 SliverToBoxAdapter(
@@ -115,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: const Text(
                         'Vidjet sozlamalari',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.w800,
                         ),
                       ),
@@ -136,5 +140,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _refreshHome() async {
     await Future<void>.delayed(const Duration(milliseconds: 650));
+  }
+
+  void _openProfileInfo() {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const ProfileInfoScreen()));
+  }
+
+  void _openAddCard() {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const AddCardScreen()));
   }
 }

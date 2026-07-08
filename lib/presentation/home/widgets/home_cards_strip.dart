@@ -8,10 +8,12 @@ class HomeCardsStrip extends StatelessWidget {
     super.key,
     required this.cards,
     required this.isBalanceHidden,
+    required this.onAddCardTap,
   });
 
   final List<HomeBankCard> cards;
   final bool isBalanceHidden;
+  final VoidCallback onAddCardTap;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class HomeCardsStrip extends StatelessWidget {
         separatorBuilder: (_, index) => const SizedBox(width: 10),
         itemBuilder: (context, index) {
           if (index == cards.length) {
-            return const _AddCardTile();
+            return _AddCardTile(onTap: onAddCardTap);
           }
 
           return _BankCardTile(
@@ -61,7 +63,7 @@ class _BankCardTile extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Color(0xFF252A28),
-                    fontSize: 12,
+                    fontSize: 10,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 1,
                   ),
@@ -81,7 +83,7 @@ class _BankCardTile extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             card.type.toLowerCase(),
-            style: const TextStyle(color: Color(0xFF9AA0A6), fontSize: 13),
+            style: const TextStyle(color: Color(0xFF9AA0A6), fontSize: 11),
           ),
           const SizedBox(height: 4),
           Text(
@@ -92,7 +94,7 @@ class _BankCardTile extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               color: Color(0xFF252A28),
-              fontSize: 14,
+              fontSize: 12,
               fontWeight: FontWeight.w900,
             ),
           ),
@@ -106,7 +108,7 @@ class _BankCardTile extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     color: Color(0xFF8C9398),
-                    fontSize: 13,
+                    fontSize: 11,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -125,12 +127,14 @@ class _BankCardTile extends StatelessWidget {
 }
 
 class _AddCardTile extends StatelessWidget {
-  const _AddCardTile();
+  const _AddCardTile({required this.onTap});
+
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       borderRadius: BorderRadius.circular(18),
       child: Container(
         width: 188,
@@ -144,7 +148,7 @@ class _AddCardTile extends StatelessWidget {
               "Karta qo'shing",
               style: TextStyle(
                 color: Color(0xFF606469),
-                fontSize: 16,
+                fontSize: 13,
                 fontWeight: FontWeight.w500,
               ),
             ),
