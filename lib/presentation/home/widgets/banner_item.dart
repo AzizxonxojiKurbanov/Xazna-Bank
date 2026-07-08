@@ -33,7 +33,7 @@ class BannerItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
+                      fontSize: 13,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -44,7 +44,7 @@ class BannerItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 12,
+                      fontSize: 11,
                       height: 1.3,
                     ),
                   ),

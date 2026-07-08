@@ -84,7 +84,7 @@ class _BottomNavItemButton extends StatelessWidget {
               maxLines: 1,
               style: TextStyle(
                 color: color,
-                fontSize: 12,
+                fontSize: 10,
                 fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
               ),
             ),

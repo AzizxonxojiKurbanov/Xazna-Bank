@@ -46,7 +46,7 @@ class HomeBalanceRow extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15,
+                        fontSize: 13,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -70,7 +70,7 @@ class HomeBalanceRow extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 28,
+                  fontSize: 23,
                   fontWeight: FontWeight.w900,
                 ),
               ),

@@ -42,7 +42,7 @@ class CashbackCard extends StatelessWidget {
                   'CASHBACK',
                   style: TextStyle(
                     color: Color(0xFFF5BD37),
-                    fontSize: 15,
+                    fontSize: 13,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -51,7 +51,7 @@ class CashbackCard extends StatelessWidget {
                   isBalanceHidden ? '**** UZS' : '0.00 UZS',
                   style: const TextStyle(
                     color: Color(0xFF252A28),
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.w900,
                   ),
                 ),

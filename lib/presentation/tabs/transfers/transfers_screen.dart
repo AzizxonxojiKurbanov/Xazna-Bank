@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:xazna_bank/presentation/tabs/transfers/between_cards_screen.dart';
+import 'package:xazna_bank/presentation/tabs/transfers/card_transfer_screen.dart';
 
 class TransfersScreen extends StatelessWidget {
   const TransfersScreen({super.key});
@@ -10,11 +12,13 @@ class TransfersScreen extends StatelessWidget {
         icon: Icons.swap_horiz,
         iconColor: const Color(0xFF00A651),
         title: "Kartaga o'tkazma",
+        builder: (_) => const CardTransferScreen(),
       ),
       _TransferItem(
         icon: Icons.credit_card,
         iconColor: const Color(0xFF00A651),
         title: "Kartalarim orasida",
+        builder: (_) => const BetweenCardsScreen(),
       ),
       _TransferItem(
         icon: Icons.account_balance_wallet_outlined,
@@ -59,25 +63,21 @@ class TransfersScreen extends StatelessWidget {
               sliver: SliverToBoxAdapter(
                 child: Text(
                   "O'tkazmalar",
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700),
                 ),
               ),
             ),
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               sliver: SliverGrid(
-                gridDelegate:
-                const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 12,
                   crossAxisSpacing: 12,
                   childAspectRatio: 1.35,
                 ),
                 delegate: SliverChildBuilderDelegate(
-                      (context, index) => _TransferCard(item: items[index]),
+                  (context, index) => _TransferCard(item: items[index]),
                   childCount: items.length,
                 ),
               ),
@@ -111,6 +111,7 @@ class _TransferItem {
   final String title;
   final String? subtitle;
   final bool isNew;
+  final WidgetBuilder? builder;
 
   _TransferItem({
     required this.icon,
@@ -118,6 +119,7 @@ class _TransferItem {
     required this.title,
     this.subtitle,
     this.isNew = false,
+    this.builder,
   });
 }
 
@@ -134,13 +136,18 @@ class _TransferCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        onTap: () {},
+        onTap: () {
+          final builder = item.builder;
+          if (builder == null) return;
+          Navigator.of(context).push(MaterialPageRoute(builder: builder));
+        },
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment:
-            fullWidth ? MainAxisAlignment.center : MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: fullWidth
+                ? MainAxisAlignment.center
+                : MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -149,7 +156,7 @@ class _TransferCard extends StatelessWidget {
                     width: 36,
                     height: 36,
                     decoration: BoxDecoration(
-                      color: item.iconColor.withOpacity(0.1),
+                      color: item.iconColor.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(item.icon, color: item.iconColor, size: 20),
@@ -157,7 +164,9 @@ class _TransferCard extends StatelessWidget {
                   if (item.isNew)
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 2),
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.circular(4),
@@ -176,8 +185,10 @@ class _TransferCard extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 item.title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: 13,
                   fontWeight: FontWeight.w600,
                   height: 1.2,
                 ),

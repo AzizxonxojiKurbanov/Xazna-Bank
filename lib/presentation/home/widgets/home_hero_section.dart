@@ -13,12 +13,16 @@ class HomeHeroSection extends StatelessWidget {
     required this.totalBalance,
     required this.isBalanceHidden,
     required this.onToggleBalance,
+    required this.onProfileTap,
+    required this.onAddCardTap,
   });
 
   final List<HomeBankCard> cards;
   final num totalBalance;
   final bool isBalanceHidden;
   final VoidCallback onToggleBalance;
+  final VoidCallback onProfileTap;
+  final VoidCallback onAddCardTap;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +50,7 @@ class HomeHeroSection extends StatelessWidget {
             ),
             child: Column(
               children: [
-                const HomeHeaderBar(),
+                HomeHeaderBar(onProfileTap: onProfileTap),
                 const SizedBox(height: 16),
                 HomeBalanceRow(
                   balance: totalBalance,
@@ -77,6 +81,7 @@ class HomeHeroSection extends StatelessWidget {
             child: HomeCardsStrip(
               cards: cards,
               isBalanceHidden: isBalanceHidden,
+              onAddCardTap: onAddCardTap,
             ),
           ),
         ],

@@ -1,32 +1,45 @@
 import 'package:flutter/material.dart';
 
 class HomeHeaderBar extends StatelessWidget {
-  const HomeHeaderBar({super.key});
+  const HomeHeaderBar({super.key, required this.onProfileTap});
+
+  final VoidCallback onProfileTap;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          width: 48,
-          height: 48,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
+        InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onProfileTap,
+          child: Container(
+            width: 48,
+            height: 48,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+            padding: const EdgeInsets.all(3),
+            child: Image.asset('assets/images/user.png'),
           ),
-          padding: const EdgeInsets.all(3),
-          child: Image.asset('assets/images/user.png'),
         ),
         const SizedBox(width: 12),
-        const Expanded(
-          child: Text(
-            'AZIZXONXOJI',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 19,
-              fontWeight: FontWeight.w800,
+        Expanded(
+          child: InkWell(
+            borderRadius: BorderRadius.circular(8),
+            onTap: onProfileTap,
+            child: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: Text(
+                'AZIZXONXOJI',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
             ),
           ),
         ),
@@ -49,7 +62,7 @@ class HomeHeaderBar extends StatelessWidget {
                   '11',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 10,
+                    fontSize: 9,
                     fontWeight: FontWeight.w700,
                   ),
                 ),

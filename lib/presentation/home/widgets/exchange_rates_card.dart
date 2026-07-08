@@ -21,7 +21,7 @@ class ExchangeRatesCard extends StatelessWidget {
               'Valyutalar kursi',
               style: TextStyle(
                 color: Color(0xFF252A28),
-                fontSize: 20,
+                fontSize: 17,
                 fontWeight: FontWeight.w900,
               ),
             ),
@@ -34,7 +34,7 @@ class ExchangeRatesCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
               foregroundColor: const Color(0xFF54B96B),
               textStyle: const TextStyle(
-                fontSize: 16,
+                fontSize: 13,
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -68,7 +68,7 @@ class _ExchangeRateRow extends StatelessWidget {
                   rate.currency,
                   style: const TextStyle(
                     color: Color(0xFF252A28),
-                    fontSize: 18,
+                    fontSize: 15,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -80,7 +80,7 @@ class _ExchangeRateRow extends StatelessWidget {
                   textAlign: TextAlign.right,
                   style: const TextStyle(
                     color: Color(0xFF252A28),
-                    fontSize: 16,
+                    fontSize: 13,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
@@ -93,7 +93,7 @@ class _ExchangeRateRow extends StatelessWidget {
                   textAlign: TextAlign.right,
                   style: const TextStyle(
                     color: Color(0xFF252A28),
-                    fontSize: 16,
+                    fontSize: 13,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
@@ -132,7 +132,7 @@ class _CurrencyBadge extends StatelessWidget {
         currency.characters.take(1).toString(),
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 17,
+          fontSize: 14,
           fontWeight: FontWeight.w900,
         ),
       ),
